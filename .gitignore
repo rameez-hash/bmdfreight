@@ -1,12 +1,13 @@
 # Old PHP backend — not part of Next.js project
 /api
 
-# Large static image assets (too big for GitHub)
-/public/assets
-/public/img/homev2/alabama-1.png
-/public/img/homev2/alabama-2.png
-/public/img/homev2/alabama-3.png
-/public/img/homev2/alabama.png
+# Large static image assets — original PNGs/JPGs excluded (WebP versions used instead)
+/public/assets/*.png
+/public/assets/*.jpg
+/public/assets/*.jpeg
+/public/img/**/*.png
+/public/img/**/*.jpg
+/public/img/**/*.jpeg
 
 # dependencies
 /node_modules
