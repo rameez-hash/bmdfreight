@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function CalculatorPage() {
   return (
     <>
-      <section className="relative min-h-[600px] flex items-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/img/homev2/banner.png)' }}>
+      <section className="relative min-h-[600px] flex items-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/img/homev2/banner.webp)' }}>
         <div className="absolute inset-0 bg-gradient-to-r from-navy/90 to-navy/60" />
         <div className="container mx-auto px-4 relative z-10 py-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -24,10 +24,10 @@ export default function CalculatorPage() {
               </p>
               <div className="flex items-center gap-4">
                 <a href="https://www.facebook.com/people/BMD-Freight/61581013590213/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition-colors">
-                  <Image src="/img/homev2/fb.png" alt="Facebook" width={24} height={24} className="w-6 h-6" />
+                  <Image src="/img/homev2/fb.webp" alt="Facebook" width={24} height={24} className="w-6 h-6" />
                 </a>
                 <a href="https://www.instagram.com/bmdfreightofficial" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-accent transition-colors">
-                  <Image src="/img/homev2/ig.png" alt="Instagram" width={24} height={24} className="w-6 h-6" />
+                  <Image src="/img/homev2/ig.webp" alt="Instagram" width={24} height={24} className="w-6 h-6" />
                 </a>
               </div>
             </div>

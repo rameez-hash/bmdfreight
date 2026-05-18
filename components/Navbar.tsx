@@ -44,7 +44,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-[72px]">
             <Link href="/" className="flex items-center">
               <Image
-                src="/img/logo-dark.png"
+                src="/img/logo-dark.webp"
                 alt="BMD Freight logo"
                 width={180}
                 height={55}
@@ -233,7 +233,7 @@ export default function Navbar() {
             {/* Center logo */}
             <Link href="/" className="absolute left-1/2 -translate-x-1/2">
               <Image
-                src="/img/bmd.png"
+                src="/img/bmd.webp"
                 alt="BMD Freight"
                 width={200}
                 height={70}

@@ -9,7 +9,7 @@ export default function TrackShipmentPage() {
   return (
     <>
       <section className="relative py-20 bg-navy">
-        <div className="absolute inset-0 opacity-20 bg-[url('/assets/state/door.png')] bg-cover bg-center" />
+        <div className="absolute inset-0 opacity-20 bg-[url('/assets/state/door.webp')] bg-cover bg-center" />
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">Track Your Shipment</h1>
         </div>

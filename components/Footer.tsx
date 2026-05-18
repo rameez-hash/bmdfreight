@@ -11,7 +11,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <Link href="/">
               <Image
-                src="/img/logo.png"
+                src="/img/logo.webp"
                 alt="BMD Freight footer logo"
                 width={260}
                 height={70}

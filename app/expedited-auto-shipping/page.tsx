@@ -18,7 +18,7 @@ const features = [
 export default function ExpeditedShippingPage() {
   return (
     <>
-      <section className="relative min-h-[600px] flex items-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/assets/state/door.png)' }}>
+      <section className="relative min-h-[600px] flex items-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/assets/state/door.webp)' }}>
         <div className="absolute inset-0 bg-gradient-to-r from-navy/90 to-navy/60" />
         <div className="container mx-auto px-4 relative z-10 py-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
