@@ -1,0 +1,43 @@
+# Old PHP backend — not part of Next.js project
+/api
+
+# Large static image assets (too big for GitHub)
+/public/assets
+/public/img/homev2/alabama-1.png
+/public/img/homev2/alabama-2.png
+/public/img/homev2/alabama-3.png
+/public/img/homev2/alabama.png
+
+# dependencies
+/node_modules
+
+# Next.js build output
+/.next
+/out
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+node_modules
