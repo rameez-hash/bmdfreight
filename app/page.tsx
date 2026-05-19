@@ -217,7 +217,7 @@ export default function HomePage() {
         <div className="relative mb-6">
           <div className="flex animate-marquee-left">
             {[...reviews, ...reviews].map((r, i) => (
-              <div key={`row1-${i}`} className="flex-shrink-0 w-[350px] mx-3">
+              <div key={`row1-${i}`} className="flex-shrink-0 w-[300px] md:w-[350px] mx-3">
                 <div className="bg-white rounded-xl p-6 border border-slate-100 shadow-sm h-full">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
@@ -249,7 +249,7 @@ export default function HomePage() {
         <div className="relative">
           <div className="flex animate-marquee-right">
             {[...reviews.slice().reverse(), ...reviews.slice().reverse()].map((r, i) => (
-              <div key={`row2-${i}`} className="flex-shrink-0 w-[350px] mx-3">
+              <div key={`row2-${i}`} className="flex-shrink-0 w-[300px] md:w-[350px] mx-3">
                 <div className="bg-white rounded-xl p-6 border border-slate-100 shadow-sm h-full">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">

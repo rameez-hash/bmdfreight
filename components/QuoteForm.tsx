@@ -177,7 +177,7 @@ export default function QuoteForm() {
         {/* Pickup Location */}
         <div className="mb-6">
           <label className="form-label block text-xs font-medium mb-3 text-white/60 uppercase tracking-wider">Pickup Location</label>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="relative" ref={originRef}>
               <label className="form-label block text-sm font-medium mb-1 text-white/80">ZIP Code <span className="text-red-400">*</span></label>
               <input
@@ -219,7 +219,7 @@ export default function QuoteForm() {
         {/* Delivery Location */}
         <div className="mb-6">
           <label className="form-label block text-xs font-medium mb-3 text-white/60 uppercase tracking-wider">Delivery Location</label>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="relative" ref={destRef}>
               <label className="form-label block text-sm font-medium mb-1 text-white/80">ZIP Code <span className="text-red-400">*</span></label>
               <input
@@ -261,7 +261,7 @@ export default function QuoteForm() {
         {/* Transport Type */}
         <div className="mb-6">
           <label className="form-label block text-sm font-medium mb-3 text-white/80">Transport Type <span className="text-red-400">*</span></label>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-4">
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="radio" name="transport_type" value="1" defaultChecked className="w-4 h-4 accent-[#ffac33]" />
               <span className="text-white text-sm">Open Carrier</span>
@@ -325,7 +325,7 @@ export default function QuoteForm() {
           </div>
           <div className="md:col-span-2">
             <label className="form-label block text-sm font-medium mb-2 text-white/80">Is Vehicle Operable? <span className="text-red-400">*</span></label>
-            <div className="flex gap-6">
+            <div className="flex flex-wrap gap-4">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="radio" name="vehicle_inop" value="0" defaultChecked className="w-4 h-4 accent-[#ffac33]" />
                 <span className="text-white text-sm">Yes - Vehicle Runs & Drives</span>
