@@ -55,7 +55,7 @@ const howSteps = [
       { icon: PhoneCall, title: 'Driver Calls Before Arrival', text: 'Your assigned driver calls at least one hour before pickup so you know exactly when to expect them. No waiting around, no guessing.' },
       { icon: Search, title: 'Pre-Pickup Vehicle Inspection', text: 'Before loading your car, the driver completes a thorough Bill of Lading inspection, documenting every existing mark or scratch so your vehicle is fully protected.' },
     ],
-    image: '/img/homev2/step-2.svg',
+    image: '/img/homev2/step-2.webp',
     reverse: true,
   },
   {
