@@ -36,9 +36,6 @@ export const metadata: Metadata = {
     'dealership transport',
   ],
   metadataBase: new URL('https://bmdfreight.com'),
-  alternates: {
-    canonical: '/',
-  },
   robots: {
     index: true,
     follow: true,
