@@ -29,8 +29,39 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   const paragraphs = post.content.split('\n\n');
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.excerpt,
+    image: 'https://bmdfreight.com/img/blog-banner.webp',
+    author: {
+      '@type': 'Organization',
+      name: 'BMD Freight',
+      url: 'https://bmdfreight.com',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'BMD Freight',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://bmdfreight.com/img/logo.webp',
+      },
+    },
+    datePublished: new Date(post.date).toISOString(),
+    dateModified: new Date(post.date).toISOString(),
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://bmdfreight.com/blog/${slug}`,
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       <section className="relative py-20 bg-navy">
         <div className="absolute inset-0 opacity-20 bg-[url('/img/blog-banner.webp')] bg-cover bg-center" />
         <div className="container mx-auto px-4 relative z-10">

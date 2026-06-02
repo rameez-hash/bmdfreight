@@ -15,9 +15,33 @@ const features = [
   { icon: Calendar, title: 'Faster Pickup Windows', text: 'Open carriers are far more plentiful on every route. That means shorter wait times, more scheduling flexibility, and quicker dispatch than enclosed transport options.' },
 ];
 
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Open Auto Transport',
+  description: 'Ship your car on an open carrier for the best price. Fast, insured, and available nationwide.',
+  provider: {
+    '@type': 'LocalBusiness',
+    name: 'BMD Freight',
+    url: 'https://bmdfreight.com',
+    telephone: '+1-872-204-2373',
+  },
+  areaServed: { '@type': 'Country', name: 'United States' },
+  serviceType: 'Open Auto Transport',
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+  },
+};
+
 export default function OpenTransportPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       {/* Hero */}
       <section className="relative min-h-[600px] flex items-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/assets/state/door.webp)' }}>
         <div className="absolute inset-0 bg-gradient-to-r from-navy/90 to-navy/60" />

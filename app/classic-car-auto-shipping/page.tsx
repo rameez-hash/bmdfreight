@@ -15,9 +15,33 @@ const features = [
   { icon: BadgeCheck, title: 'Insurance Matched to Your Car\'s Value', text: 'Standard cargo insurance isn\'t always enough for a classic. We verify that the carrier holds adequate coverage for your vehicle\'s agreed or appraised value before dispatch.' },
 ];
 
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Classic Car Shipping',
+  description: 'Enclosed transport for vintage and collector vehicles with verified high-value insurance.',
+  provider: {
+    '@type': 'LocalBusiness',
+    name: 'BMD Freight',
+    url: 'https://bmdfreight.com',
+    telephone: '+1-872-204-2373',
+  },
+  areaServed: { '@type': 'Country', name: 'United States' },
+  serviceType: 'Classic Car Shipping',
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+  },
+};
+
 export default function ClassicCarShippingPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       <section className="relative min-h-[600px] flex items-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/assets/state/door.webp)' }}>
         <div className="absolute inset-0 bg-gradient-to-r from-navy/90 to-navy/60" />
         <div className="container mx-auto px-4 relative z-10 py-16">

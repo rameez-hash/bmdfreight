@@ -105,9 +105,62 @@ const faqs = [
   { q: 'What happens if my car is damaged during transport?', a: 'If any new damage is discovered at delivery, it must be noted on the Bill of Lading in the presence of the driver. This documentation initiates a formal insurance claim. Do not sign a clean Bill of Lading if damage exists — this protects your right to file a claim.' },
 ];
 
+const homeSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      name: 'BMD Freight',
+      url: 'https://bmdfreight.com',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: 'https://bmdfreight.com/car-shipping-calculator',
+        },
+        'query-input': 'required name=search_term_string',
+      },
+    },
+    {
+      '@type': 'AggregateRating',
+      itemReviewed: {
+        '@type': 'LocalBusiness',
+        name: 'BMD Freight',
+        image: 'https://bmdfreight.com/img/bmd.webp',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: '4444 Main St',
+          addressLocality: 'Skokie',
+          addressRegion: 'IL',
+          postalCode: '60076',
+          addressCountry: 'US',
+        },
+        telephone: '+1-872-204-2373',
+        priceRange: '$$',
+      },
+      ratingValue: '4.9',
+      bestRating: '5',
+      worstRating: '1',
+      reviewCount: '15000',
+    },
+    ...reviews.slice(0, 3).map((review) => ({
+      '@type': 'Review',
+      itemReviewed: { '@type': 'LocalBusiness', name: 'BMD Freight' },
+      author: { '@type': 'Person', name: review.name },
+      reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+      reviewBody: review.text,
+      name: review.title,
+    })),
+  ],
+};
+
 export default function HomePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeSchema) }}
+      />
       {/* Hero */}
       <section
         className="relative min-h-[700px] flex items-center bg-cover bg-center bg-no-repeat"

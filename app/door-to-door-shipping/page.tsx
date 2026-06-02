@@ -15,9 +15,33 @@ const features = [
   { icon: Car, title: 'Any Vehicle, Any Condition', text: 'We ship everyday sedans, pickup trucks, SUVs, minivans, and inoperable vehicles. If it has four wheels, we can move it — with the right equipment for the job.' },
 ];
 
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Door-to-Door Car Shipping',
+  description: 'True door-to-door car shipping across all 50 states. We pick up from your address and deliver straight to your destination.',
+  provider: {
+    '@type': 'LocalBusiness',
+    name: 'BMD Freight',
+    url: 'https://bmdfreight.com',
+    telephone: '+1-872-204-2373',
+  },
+  areaServed: { '@type': 'Country', name: 'United States' },
+  serviceType: 'Door-to-Door Car Shipping',
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+  },
+};
+
 export default function DoorToDoorPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       {/* Hero */}
       <section className="relative min-h-[600px] flex items-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/assets/state/door.webp)' }}>
         <div className="absolute inset-0 bg-gradient-to-r from-navy/90 to-navy/60" />

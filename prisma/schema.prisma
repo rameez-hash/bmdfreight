@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("admins")
+}
+
+model PaymentLink {
+  id          String   @id @default(cuid())
+  uniqueId    String   @unique @map("unique_id")
+  clientName  String   @map("client_name")
+  clientEmail String   @map("client_email")
+  amount      Decimal  @db.Decimal(10, 2)
+  currency    String   @default("USD")
+  description String?
+  status      String   @default("pending") // pending, paid, cancelled
+  stripeId    String?  @map("stripe_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("payment_links")
+}

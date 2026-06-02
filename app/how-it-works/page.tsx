@@ -42,9 +42,30 @@ const steps = [
   },
 ];
 
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'How BMD Freight Car Shipping Works',
+  description: 'Learn exactly how BMD Freight car shipping works — from instant quote to door-to-door delivery. Five simple steps, fully insured, no hidden fees.',
+  totalTime: 'P5D',
+  supply: ['Vehicle registration', 'Bill of Lading inspection report'],
+  tool: ['Online quote calculator', 'Phone for driver communication'],
+  step: steps.map((step, i) => ({
+    '@type': 'HowToStep',
+    position: i + 1,
+    name: step.title,
+    text: step.text,
+    url: `https://bmdfreight.com/how-it-works/#step-${i + 1}`,
+  })),
+};
+
 export default function HowItWorksPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
       {/* Hero */}
       <section className="relative min-h-[600px] flex items-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/img/homev2/banner.webp)' }}>
         <div className="absolute inset-0 bg-gradient-to-r from-navy/90 to-navy/60" />

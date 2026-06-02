@@ -15,9 +15,33 @@ const features = [
   { icon: BadgeCheck, title: 'Same Protection, Faster Timeline', text: 'Speed never comes at the cost of safety. Every expedited shipment includes full cargo insurance, a complete Bill of Lading inspection, and professional carrier handling.' },
 ];
 
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Expedited Auto Shipping',
+  description: 'Priority dispatch and fastest available delivery for urgent car shipments.',
+  provider: {
+    '@type': 'LocalBusiness',
+    name: 'BMD Freight',
+    url: 'https://bmdfreight.com',
+    telephone: '+1-872-204-2373',
+  },
+  areaServed: { '@type': 'Country', name: 'United States' },
+  serviceType: 'Expedited Auto Shipping',
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+  },
+};
+
 export default function ExpeditedShippingPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       <section className="relative min-h-[600px] flex items-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/assets/state/door.webp)' }}>
         <div className="absolute inset-0 bg-gradient-to-r from-navy/90 to-navy/60" />
         <div className="container mx-auto px-4 relative z-10 py-16">

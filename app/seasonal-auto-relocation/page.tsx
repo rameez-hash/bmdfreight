@@ -15,9 +15,33 @@ const features = [
   { icon: Truck, title: 'Round-Trip Pricing & Priority Scheduling', text: 'Customers who book both legs of their seasonal move in advance receive preferred scheduling and reduced rates. We hold your spring return slot so you are never scrambling for a carrier.' },
 ];
 
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Seasonal Car Relocation',
+  description: 'Snowbird auto transport for seasonal movers. Ship your car to Florida, Arizona, or any seasonal destination.',
+  provider: {
+    '@type': 'LocalBusiness',
+    name: 'BMD Freight',
+    url: 'https://bmdfreight.com',
+    telephone: '+1-872-204-2373',
+  },
+  areaServed: { '@type': 'Country', name: 'United States' },
+  serviceType: 'Seasonal Car Relocation',
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+  },
+};
+
 export default function SeasonalRelocationPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       <section className="relative min-h-[600px] flex items-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/assets/state/door.webp)' }}>
         <div className="absolute inset-0 bg-gradient-to-r from-navy/90 to-navy/60" />
         <div className="container mx-auto px-4 relative z-10 py-16">

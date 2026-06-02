@@ -15,9 +15,33 @@ const features = [
   { icon: BadgeCheck, title: 'White-Glove Handling, Every Step', text: 'Your vehicle receives one-on-one attention from an experienced driver who specializes in premium transport. Every detail is documented before loading and verified at delivery.' },
 ];
 
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Enclosed Auto Transport',
+  description: 'Fully enclosed vehicle transport for luxury, exotic, and classic cars. Hydraulic lift gates, soft tie-downs, and complete cargo insurance.',
+  provider: {
+    '@type': 'LocalBusiness',
+    name: 'BMD Freight',
+    url: 'https://bmdfreight.com',
+    telephone: '+1-872-204-2373',
+  },
+  areaServed: { '@type': 'Country', name: 'United States' },
+  serviceType: 'Enclosed Auto Transport',
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+  },
+};
+
 export default function EnclosedTransportPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
       {/* Hero */}
       <section className="relative min-h-[600px] flex items-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/assets/state/door.webp)' }}>
         <div className="absolute inset-0 bg-gradient-to-r from-navy/90 to-navy/60" />

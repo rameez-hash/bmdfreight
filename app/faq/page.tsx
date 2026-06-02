@@ -25,9 +25,26 @@ const faqs = [
   { q: 'How soon after booking will my car be picked up?', a: 'For standard shipments, carrier assignment and pickup scheduling typically happen within 1 to 5 business days. Popular routes with high carrier availability often result in pickup within 24 to 48 hours. Expedited service can sometimes achieve same-day or next-day pickup depending on your route.' },
 ];
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.a,
+    },
+  })),
+};
+
 export default function FAQPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       {/* Banner */}
       <section className="relative py-20 bg-navy">
         <div className="absolute inset-0 opacity-20 bg-[url('/img/faq-banner.webp')] bg-cover bg-center" />
