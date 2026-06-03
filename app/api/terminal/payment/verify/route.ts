@@ -1,14 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Stripe from 'stripe';
 import { prisma } from '@/lib/prisma';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+import { getStripe } from '@/lib/stripe';
 
 export async function POST(request: NextRequest) {
   try {
     const { paymentIntentId, uniqueId } = await request.json();
 
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    const paymentIntent = await getStripe().paymentIntents.retrieve(paymentIntentId);
 
     if (paymentIntent.status === 'succeeded') {
       await prisma.paymentLink.update({

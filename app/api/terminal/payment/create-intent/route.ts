@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Stripe from 'stripe';
 import { prisma } from '@/lib/prisma';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+import { getStripe } from '@/lib/stripe';
 
 export async function POST(request: NextRequest) {
   try {
@@ -28,7 +26,7 @@ export async function POST(request: NextRequest) {
 
     const amountInCents = Math.round(parseFloat(link.amount.toString()) * 100);
 
-    const paymentIntent = await stripe.paymentIntents.create({
+    const paymentIntent = await getStripe().paymentIntents.create({
       amount: amountInCents,
       currency: link.currency.toLowerCase(),
       metadata: {

@@ -1,22 +1,23 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { Check, Download, Home } from 'lucide-react';
 import Link from 'next/link';
 
-export default function SuccessPage() {
+function SuccessContent() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
-  const [verified, setVerified] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const verifyPayment = async () => {
-      if (!id) return;
+      if (!id) {
+        setLoading(false);
+        return;
+      }
 
-      // Get payment intent from URL if present
       const paymentIntentId = searchParams.get('payment_intent');
 
       if (paymentIntentId) {
@@ -26,7 +27,6 @@ export default function SuccessPage() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ paymentIntentId, uniqueId: id }),
           });
-          setVerified(true);
         } catch {
           console.error('Verification failed');
         }
@@ -90,5 +90,21 @@ export default function SuccessPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center">
+      <div className="text-white">Verifying payment...</div>
+    </div>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <SuccessContent />
+    </Suspense>
   );
 }
