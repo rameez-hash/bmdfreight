@@ -3,9 +3,15 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET() {
   const envStatus = {
-    hasDatabaseUrl: Boolean(process.env.DATABASE_URL),
-    hasDirectUrl: Boolean(process.env.DIRECT_URL),
-    hasJwtSecret: Boolean(process.env.JWT_SECRET),
+    hasDatabaseUrl: Boolean(
+      process.env.POSTGRES_PRISMA_URL || process.env.DATABASE_URL
+    ),
+    hasDirectUrl: Boolean(
+      process.env.POSTGRES_URL_NON_POOLING || process.env.DIRECT_URL
+    ),
+    hasJwtSecret: Boolean(
+      process.env.JWT_SECRET || process.env.SUPABASE_JWT_SECRET
+    ),
   };
 
   try {
@@ -25,7 +31,7 @@ export async function GET() {
         status: 'error',
         database: 'failed',
         env: envStatus,
-        hint: 'Check DATABASE_URL and DIRECT_URL in Vercel env vars',
+        hint: 'Check POSTGRES_PRISMA_URL and POSTGRES_URL_NON_POOLING in Vercel env vars',
       },
       { status: 500 }
     );
