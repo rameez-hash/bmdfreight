@@ -26,12 +26,19 @@ export async function GET() {
   } catch (error) {
     console.error('Health check error:', error);
 
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unknown database error';
+
     return NextResponse.json(
       {
         status: 'error',
         database: 'failed',
         env: envStatus,
-        hint: 'Check POSTGRES_PRISMA_URL and POSTGRES_URL_NON_POOLING in Vercel env vars',
+        error: errorMessage,
+        hint:
+          errorMessage.includes('does not exist') || errorMessage.includes('admins')
+            ? 'Run prisma/setup-production.sql in Supabase SQL Editor'
+            : 'Check POSTGRES_PRISMA_URL and POSTGRES_URL_NON_POOLING in Vercel env vars',
       },
       { status: 500 }
     );
