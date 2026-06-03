@@ -1,0 +1,33 @@
+import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+
+export async function GET() {
+  const envStatus = {
+    hasDatabaseUrl: Boolean(process.env.DATABASE_URL),
+    hasDirectUrl: Boolean(process.env.DIRECT_URL),
+    hasJwtSecret: Boolean(process.env.JWT_SECRET),
+  };
+
+  try {
+    const adminCount = await prisma.admin.count();
+
+    return NextResponse.json({
+      status: 'ok',
+      database: 'connected',
+      adminCount,
+      env: envStatus,
+    });
+  } catch (error) {
+    console.error('Health check error:', error);
+
+    return NextResponse.json(
+      {
+        status: 'error',
+        database: 'failed',
+        env: envStatus,
+        hint: 'Check DATABASE_URL and DIRECT_URL in Vercel env vars',
+      },
+      { status: 500 }
+    );
+  }
+}
