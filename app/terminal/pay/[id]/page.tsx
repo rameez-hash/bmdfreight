@@ -84,54 +84,59 @@ function PaymentForm({ link }: { link: PaymentLink; clientSecret: string }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       {/* Order Summary */}
-      <div className="bg-slate-50 rounded-xl p-5 border border-slate-100">
+      <div className="bg-slate-50 rounded-xl p-4 sm:p-5 border border-slate-100">
         <h2 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">
           Order Summary
         </h2>
 
-        <div className="flex items-start justify-between gap-4 mb-4">
-          <div>
-            <p className="text-slate-900 font-semibold text-lg">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+          <div className="min-w-0 flex-1">
+            <p className="text-slate-900 font-semibold text-base sm:text-lg break-words">
               {link.description || 'Freight Service Payment'}
             </p>
             <p className="text-slate-500 text-sm mt-1">BMD Freight Services</p>
           </div>
-          <div className="text-2xl font-bold text-[#1e3a5f] whitespace-nowrap">
+          <div className="text-xl sm:text-2xl font-bold text-[#1e3a5f] shrink-0">
             {formatUsd(link.amount)}
           </div>
         </div>
 
         <div className="space-y-3 pt-4 border-t border-slate-200">
-          <div className="flex items-center gap-3 text-sm">
-            <User size={16} className="text-slate-400 shrink-0" />
-            <span className="text-slate-500 w-20 shrink-0">Bill To</span>
-            <span className="text-slate-900 font-medium">{link.clientName}</span>
+          <div className="grid grid-cols-[auto_1fr] sm:grid-cols-[auto_5rem_1fr] gap-x-3 gap-y-1 items-start text-sm">
+            <User size={16} className="text-slate-400 mt-0.5" />
+            <span className="text-slate-500 sm:col-start-2">Bill To</span>
+            <span className="text-slate-900 font-medium col-start-2 sm:col-start-3 break-words">{link.clientName}</span>
           </div>
-          <div className="flex items-center gap-3 text-sm">
-            <Mail size={16} className="text-slate-400 shrink-0" />
-            <span className="text-slate-500 w-20 shrink-0">Email</span>
-            <span className="text-slate-900 font-medium break-all">{link.clientEmail}</span>
+          <div className="grid grid-cols-[auto_1fr] sm:grid-cols-[auto_5rem_1fr] gap-x-3 gap-y-1 items-start text-sm">
+            <Mail size={16} className="text-slate-400 mt-0.5" />
+            <span className="text-slate-500 sm:col-start-2">Email</span>
+            <span className="text-slate-900 font-medium col-start-2 sm:col-start-3 break-all">{link.clientEmail}</span>
           </div>
-          <div className="flex items-center gap-3 text-sm">
-            <Calendar size={16} className="text-slate-400 shrink-0" />
-            <span className="text-slate-500 w-20 shrink-0">Date</span>
-            <span className="text-slate-900 font-medium">{formattedDate}</span>
+          <div className="grid grid-cols-[auto_1fr] sm:grid-cols-[auto_5rem_1fr] gap-x-3 gap-y-1 items-start text-sm">
+            <Calendar size={16} className="text-slate-400 mt-0.5" />
+            <span className="text-slate-500 sm:col-start-2">Date</span>
+            <span className="text-slate-900 font-medium col-start-2 sm:col-start-3">{formattedDate}</span>
           </div>
         </div>
       </div>
 
       {/* Payment Section */}
-      <div className="bg-white rounded-xl p-5 border border-slate-200">
+      <div className="bg-white rounded-xl p-4 sm:p-5 border border-slate-200 overflow-hidden">
         <div className="flex items-center gap-2 mb-4">
-          <CreditCard size={18} className="text-[#1e3a5f]" />
+          <CreditCard size={18} className="text-[#1e3a5f] shrink-0" />
           <h2 className="text-sm font-semibold text-slate-900">Payment Method</h2>
         </div>
 
-        <PaymentElement
-          options={{
-            layout: 'tabs',
-          }}
-        />
+        <div className="w-full min-w-0 overflow-x-auto">
+          <PaymentElement
+            options={{
+              layout: {
+                type: 'tabs',
+                defaultCollapsed: false,
+              },
+            }}
+          />
+        </div>
       </div>
 
       {message && (
@@ -143,7 +148,7 @@ function PaymentForm({ link }: { link: PaymentLink; clientSecret: string }) {
       <button
         type="submit"
         disabled={!stripe || loading}
-        className="w-full py-4 bg-[#1e3a5f] hover:bg-[#152a45] disabled:bg-slate-400 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#1e3a5f]/20"
+        className="w-full min-h-[48px] py-3.5 sm:py-4 px-4 bg-[#1e3a5f] hover:bg-[#152a45] active:scale-[0.99] disabled:bg-slate-400 disabled:cursor-not-allowed text-white text-sm sm:text-base font-semibold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#1e3a5f]/20"
       >
         {loading ? (
           <>
@@ -158,8 +163,8 @@ function PaymentForm({ link }: { link: PaymentLink; clientSecret: string }) {
         )}
       </button>
 
-      <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
-        <ShieldCheck size={14} className="text-emerald-600" />
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 text-xs text-slate-500 text-center px-2">
+        <ShieldCheck size={14} className="text-emerald-600 shrink-0" />
         <span>256-bit SSL encryption · Powered by Stripe</span>
       </div>
     </form>
@@ -168,24 +173,27 @@ function PaymentForm({ link }: { link: PaymentLink; clientSecret: string }) {
 
 function PageShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-slate-50 to-blue-50 py-8 px-4">
-      <div className="max-w-lg mx-auto">
-        <div className="text-center mb-6">
+    <div className="min-h-[100dvh] bg-gradient-to-br from-slate-100 via-slate-50 to-blue-50 flex flex-col">
+      <div className="flex-1 w-full max-w-lg lg:max-w-xl mx-auto px-4 sm:px-6 py-6 sm:py-10 flex flex-col justify-center">
+        <div className="text-center mb-4 sm:mb-6">
           <Image
             src="/img/logo.webp"
             alt="BMD Freight"
-            width={64}
-            height={64}
-            className="mx-auto mb-3 bg-white rounded-xl p-1.5 shadow-sm"
+            width={56}
+            height={56}
+            className="mx-auto mb-2 sm:mb-3 bg-white rounded-xl p-1.5 shadow-sm w-14 h-14 sm:w-16 sm:h-16"
           />
-          <h1 className="text-xl font-bold text-slate-900">BMD Freight</h1>
-          <p className="text-slate-500 text-sm">Secure Payment Checkout</p>
+          <h1 className="text-lg sm:text-xl font-bold text-slate-900">BMD Freight</h1>
+          <p className="text-slate-500 text-xs sm:text-sm">Secure Payment Checkout</p>
         </div>
-        <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-6 sm:p-8">
+        <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-4 sm:p-6 md:p-8 w-full">
           {children}
         </div>
-        <p className="text-center text-xs text-slate-400 mt-6">
-          Questions? Contact us at support@bmdfreight.com
+        <p className="text-center text-xs text-slate-400 mt-4 sm:mt-6 px-2">
+          Questions? Contact us at{' '}
+          <a href="mailto:support@bmdfreight.com" className="underline hover:text-slate-600">
+            support@bmdfreight.com
+          </a>
         </p>
       </div>
     </div>
@@ -276,12 +284,12 @@ export default function PayPage() {
 
   return (
     <PageShell>
-      <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
-        <div>
-          <h2 className="text-lg font-bold text-slate-900">Complete Payment</h2>
-          <p className="text-slate-500 text-sm">Review details and pay below</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 sm:mb-6 pb-4 border-b border-slate-100">
+        <div className="min-w-0">
+          <h2 className="text-base sm:text-lg font-bold text-slate-900">Complete Payment</h2>
+          <p className="text-slate-500 text-xs sm:text-sm">Review details and pay below</p>
         </div>
-        <span className="px-3 py-1 bg-amber-50 text-amber-700 text-xs font-semibold rounded-full border border-amber-200">
+        <span className="px-3 py-1 bg-amber-50 text-amber-700 text-xs font-semibold rounded-full border border-amber-200 shrink-0">
           Pending
         </span>
       </div>
