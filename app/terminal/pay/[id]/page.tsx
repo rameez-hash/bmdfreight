@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Check, Lock, CreditCard } from 'lucide-react';
+import { formatUsd } from '@/lib/payment-link';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
@@ -15,7 +16,6 @@ interface PaymentLink {
   clientName: string;
   clientEmail: string;
   amount: number;
-  currency: string;
   description: string | null;
   status: string;
   createdAt: string;
@@ -45,14 +45,12 @@ function PaymentForm({ link, clientSecret }: { link: PaymentLink; clientSecret: 
     setLoading(false);
   };
 
-  const currencySymbol = link.currency === 'USD' ? '$' : link.currency === 'EUR' ? '€' : '£';
-
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="bg-white/5 rounded-xl p-6 border border-white/10">
         <div className="text-center mb-6">
           <div className="text-4xl font-bold text-blue-400 mb-2">
-            {currencySymbol}{link.amount.toFixed(2)}
+            {formatUsd(link.amount)}
           </div>
           <p className="text-slate-300">{link.description || 'Freight Service Payment'}</p>
         </div>
@@ -86,7 +84,7 @@ function PaymentForm({ link, clientSecret }: { link: PaymentLink; clientSecret: 
           className="w-full py-4 bg-blue-600 hover:bg-blue-500 disabled:bg-blue-800 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
         >
           <CreditCard size={20} />
-          {loading ? 'Processing...' : `Pay ${currencySymbol}${link.amount.toFixed(2)}`}
+          {loading ? 'Processing...' : `Pay ${formatUsd(link.amount)}`}
         </button>
 
         <div className="mt-4 text-center text-sm text-slate-400 flex items-center justify-center gap-2">

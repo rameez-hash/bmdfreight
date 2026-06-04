@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Copy, Check, RefreshCw, LogOut, Plus, Trash2, ExternalLink, DollarSign, CreditCard, Mail, User, FileText, X } from 'lucide-react';
+import { Copy, Check, RefreshCw, LogOut, Plus, Trash2, ExternalLink, DollarSign, Mail, User, FileText, X } from 'lucide-react';
+import { formatUsd } from '@/lib/payment-link';
 
 interface PaymentLink {
   id: string;
@@ -11,7 +12,6 @@ interface PaymentLink {
   clientName: string;
   clientEmail: string;
   amount: number;
-  currency: string;
   status: string;
   description: string | null;
   stripeId: string | null;
@@ -24,7 +24,6 @@ export default function Dashboard() {
     clientName: '',
     clientEmail: '',
     amount: '',
-    currency: 'USD',
     description: '',
   });
   const [generatedUrl, setGeneratedUrl] = useState('');
@@ -101,7 +100,7 @@ export default function Dashboard() {
         const data = await res.json();
         setGeneratedUrl(data.paymentUrl);
         setShowModal(true);
-        setFormData({ clientName: '', clientEmail: '', amount: '', currency: 'USD', description: '' });
+        setFormData({ clientName: '', clientEmail: '', amount: '', description: '' });
         fetchLinks();
       }
     } catch {
@@ -191,11 +190,6 @@ export default function Dashboard() {
     }
   };
 
-  const formatCurrency = (amount: number, currency: string) => {
-    const symbol = currency === 'USD' ? '$' : currency === 'EUR' ? '€' : '£';
-    return `${symbol}${amount.toFixed(2)}`;
-  };
-
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Navbar - Navy BMD Freight Theme */}
@@ -265,36 +259,19 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Amount</label>
-                  <div className="relative">
-                    <DollarSign size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                    <input
-                      type="number"
-                      step="0.01"
-                      value={formData.amount}
-                      onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                      required
-                      className="w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#1e3a5f] focus:border-[#1e3a5f] text-sm"
-                      placeholder="100.00"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1.5">Currency</label>
-                  <div className="relative">
-                    <CreditCard size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                    <select
-                      value={formData.currency}
-                      onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                      className="w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#1e3a5f] focus:border-[#1e3a5f] text-sm appearance-none"
-                    >
-                      <option value="USD">USD ($)</option>
-                      <option value="EUR">EUR (€)</option>
-                      <option value="GBP">GBP (£)</option>
-                    </select>
-                  </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Amount (USD)</label>
+                <div className="relative">
+                  <DollarSign size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.amount}
+                    onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+                    required
+                    className="w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#1e3a5f] focus:border-[#1e3a5f] text-sm"
+                    placeholder="100.00"
+                  />
                 </div>
               </div>
 
@@ -376,8 +353,7 @@ export default function Dashboard() {
                           </div>
                         </td>
                         <td className="py-4 px-4">
-                          <div className="font-semibold text-slate-900">{formatCurrency(link.amount, link.currency)}</div>
-                          <div className="text-slate-500 text-xs">{link.currency}</div>
+                          <div className="font-semibold text-slate-900">{formatUsd(link.amount)}</div>
                         </td>
                         <td className="py-4 px-4">
                           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${getStatusColor(link.status)}`}>
@@ -498,7 +474,7 @@ export default function Dashboard() {
               <div className="text-center py-4 bg-slate-50 rounded-xl">
                 <div className="text-sm text-slate-500 mb-1">Amount</div>
                 <div className="text-3xl font-bold text-[#1e3a5f]">
-                  {formatCurrency(selectedLink.amount, selectedLink.currency)}
+                  {formatUsd(selectedLink.amount)}
                 </div>
               </div>
 

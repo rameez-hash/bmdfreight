@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyToken } from '@/lib/auth';
 import { syncPendingPaymentsFromStripe } from '@/lib/sync-payments';
+import { serializePaymentLink, serializePaymentLinks } from '@/lib/payment-link';
 import { v4 as uuidv4 } from 'uuid';
 
 // GET - List all payment links (optional ?sync=true to refresh status from Stripe)
@@ -27,7 +28,7 @@ export async function GET(request: NextRequest) {
       orderBy: { createdAt: 'desc' },
     });
 
-    return NextResponse.json({ links, synced });
+    return NextResponse.json({ links: serializePaymentLinks(links), synced });
   } catch (error) {
     console.error('List links error:', error);
     return NextResponse.json(
@@ -85,7 +86,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { clientName, clientEmail, amount, currency, description } = await request.json();
+    const { clientName, clientEmail, amount, description } = await request.json();
 
     if (!clientName || !clientEmail || !amount) {
       return NextResponse.json(
@@ -102,7 +103,7 @@ export async function POST(request: NextRequest) {
         clientName,
         clientEmail,
         amount: parseFloat(amount),
-        currency: currency || 'USD',
+        currency: 'USD',
         description,
         status: 'pending',
       },
@@ -112,7 +113,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ 
       success: true, 
-      link,
+      link: serializePaymentLink(link),
       paymentUrl
     });
   } catch (error) {

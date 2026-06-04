@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { serializePaymentLink } from '@/lib/payment-link';
 
 export async function GET(
   request: NextRequest,
@@ -19,7 +20,7 @@ export async function GET(
       );
     }
 
-    return NextResponse.json({ link });
+    return NextResponse.json({ link: serializePaymentLink(link) });
   } catch (error) {
     console.error('Get payment link error:', error);
     return NextResponse.json(
