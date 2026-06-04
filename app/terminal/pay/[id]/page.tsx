@@ -135,6 +135,14 @@ function PaymentForm({ link }: { link: PaymentLink; clientSecret: string }) {
       elements,
       confirmParams: {
         return_url: `${window.location.origin}/terminal/success?id=${link.uniqueId}`,
+        receipt_email: link.clientEmail,
+        payment_method_data: {
+          billing_details: {
+            name: link.clientName,
+            email: link.clientEmail,
+            address: { country: 'US' },
+          },
+        },
       },
     });
 
@@ -157,12 +165,26 @@ function PaymentForm({ link }: { link: PaymentLink; clientSecret: string }) {
           </span>
         </div>
 
-        <div className="w-full">
+        <div className="w-full pb-8">
           <PaymentElement
             options={{
               layout: {
                 type: 'tabs',
                 defaultCollapsed: false,
+              },
+              fields: {
+                billingDetails: {
+                  name: 'never',
+                  email: 'never',
+                  phone: 'never',
+                  address: 'never',
+                },
+              },
+              defaultValues: {
+                billingDetails: {
+                  name: link.clientName,
+                  email: link.clientEmail,
+                },
               },
             }}
           />
@@ -230,7 +252,7 @@ function PageShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-[100dvh] bg-slate-100 flex flex-col">
       <SiteHeader />
-      <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+      <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 pb-24">
         {children}
       </main>
       <footer className="w-full border-t border-slate-200 bg-white py-4 px-4">
