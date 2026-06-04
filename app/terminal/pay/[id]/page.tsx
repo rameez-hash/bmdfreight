@@ -136,13 +136,6 @@ function PaymentForm({ link }: { link: PaymentLink; clientSecret: string }) {
       confirmParams: {
         return_url: `${window.location.origin}/terminal/success?id=${link.uniqueId}`,
         receipt_email: link.clientEmail,
-        payment_method_data: {
-          billing_details: {
-            name: link.clientName,
-            email: link.clientEmail,
-            address: { country: 'US' },
-          },
-        },
       },
     });
 
@@ -174,16 +167,26 @@ function PaymentForm({ link }: { link: PaymentLink; clientSecret: string }) {
               },
               fields: {
                 billingDetails: {
-                  name: 'never',
-                  email: 'never',
+                  name: 'auto',
+                  email: 'auto',
                   phone: 'never',
-                  address: 'never',
+                  address: {
+                    country: 'never',
+                    line1: 'never',
+                    line2: 'never',
+                    city: 'never',
+                    state: 'never',
+                    postalCode: 'auto',
+                  },
                 },
               },
               defaultValues: {
                 billingDetails: {
                   name: link.clientName,
                   email: link.clientEmail,
+                  address: {
+                    country: 'US',
+                  },
                 },
               },
             }}

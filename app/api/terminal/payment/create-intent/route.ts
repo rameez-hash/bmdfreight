@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
       amount: amountInCents,
       currency: 'usd',
       receipt_email: link.clientEmail,
+      description: link.description || `BMD Freight payment — ${link.clientName}`,
       metadata: {
         paymentLinkId: link.id,
         uniqueId: link.uniqueId,
