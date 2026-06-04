@@ -236,8 +236,8 @@ function PageShell({ children }: { children: React.ReactNode }) {
       <footer className="w-full border-t border-slate-200 bg-white py-4 px-4">
         <p className="text-center text-xs text-slate-500 max-w-6xl mx-auto">
           Questions? Contact{' '}
-          <a href="mailto:support@bmdfreight.com" className="text-[#1e3a5f] underline hover:no-underline">
-            support@bmdfreight.com
+          <a href="mailto:info@bmdfreight.com" className="text-[#1e3a5f] underline hover:no-underline">
+            info@bmdfreight.com
           </a>
         </p>
       </footer>

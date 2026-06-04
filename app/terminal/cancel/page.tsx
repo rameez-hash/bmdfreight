@@ -37,7 +37,7 @@ export default function CancelPage() {
           </div>
 
           <p className="mt-6 text-sm text-slate-400">
-            Need help? Contact us at support@bmdfreight.com
+            Need help? Contact us at info@bmdfreight.com
           </p>
         </div>
       </div>
