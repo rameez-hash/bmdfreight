@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyToken } from '@/lib/auth';
+import { syncPendingPaymentsFromStripe } from '@/lib/sync-payments';
 import { v4 as uuidv4 } from 'uuid';
 
-// GET - List all payment links
+// GET - List all payment links (optional ?sync=true to refresh status from Stripe)
 export async function GET(request: NextRequest) {
   try {
     const token = request.headers.get('authorization')?.replace('Bearer ', '');
@@ -15,11 +16,18 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    const sync = request.nextUrl.searchParams.get('sync') === 'true';
+    let synced = 0;
+
+    if (sync) {
+      synced = await syncPendingPaymentsFromStripe();
+    }
+
     const links = await prisma.paymentLink.findMany({
       orderBy: { createdAt: 'desc' },
     });
 
-    return NextResponse.json({ links });
+    return NextResponse.json({ links, synced });
   } catch (error) {
     console.error('List links error:', error);
     return NextResponse.json(

@@ -34,6 +34,7 @@ export default function Dashboard() {
   const [selectedLink, setSelectedLink] = useState<PaymentLink | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   const checkAuth = () => {
     const token = localStorage.getItem('terminal_token');
@@ -44,11 +45,13 @@ export default function Dashboard() {
     return token;
   };
 
-  const fetchLinks = async () => {
+  const fetchLinks = async (syncFromStripe = false) => {
     const token = checkAuth();
     if (!token) return;
+
+    if (syncFromStripe) setRefreshing(true);
     
-    const res = await fetch('/api/terminal/links', {
+    const res = await fetch(`/api/terminal/links${syncFromStripe ? '?sync=true' : ''}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (res.status === 401) {
@@ -60,6 +63,7 @@ export default function Dashboard() {
       const data = await res.json();
       setLinks(data.links);
     }
+    if (syncFromStripe) setRefreshing(false);
   };
 
   useEffect(() => {
@@ -148,6 +152,10 @@ export default function Dashboard() {
         return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
       case 'pending':
         return 'bg-amber-500/20 text-amber-400 border-amber-500/30';
+      case 'failed':
+        return 'bg-red-500/20 text-red-400 border-red-500/30';
+      case 'cancelled':
+        return 'bg-slate-500/20 text-slate-400 border-slate-500/30';
       default:
         return 'bg-slate-500/20 text-slate-400 border-slate-500/30';
     }
@@ -159,8 +167,27 @@ export default function Dashboard() {
         return <Check size={14} className="text-emerald-400" />;
       case 'pending':
         return <DollarSign size={14} className="text-amber-400" />;
+      case 'failed':
+        return <X size={14} className="text-red-400" />;
+      case 'cancelled':
+        return <X size={14} className="text-slate-400" />;
       default:
         return null;
+    }
+  };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'paid':
+        return 'PAID';
+      case 'pending':
+        return 'PENDING';
+      case 'failed':
+        return 'FAILED';
+      case 'cancelled':
+        return 'CANCELLED';
+      default:
+        return status.toUpperCase();
     }
   };
 
@@ -305,10 +332,12 @@ export default function Dashboard() {
                 <p className="text-slate-500 text-sm">{links.length} total links</p>
               </div>
               <button
-                onClick={fetchLinks}
-                className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors text-sm"
+                onClick={() => fetchLinks(true)}
+                disabled={refreshing}
+                className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 disabled:opacity-60 text-slate-700 rounded-lg transition-colors text-sm"
               >
-                <RefreshCw size={16} /> Refresh
+                <RefreshCw size={16} className={refreshing ? 'animate-spin' : ''} />
+                {refreshing ? 'Syncing...' : 'Refresh'}
               </button>
             </div>
 
@@ -353,7 +382,7 @@ export default function Dashboard() {
                         <td className="py-4 px-4">
                           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${getStatusColor(link.status)}`}>
                             {getStatusIcon(link.status)}
-                            {link.status === 'paid' ? 'PAID' : link.status === 'pending' ? 'PENDING' : link.status.toUpperCase()}
+                            {getStatusLabel(link.status)}
                           </span>
                         </td>
                         <td className="py-4 px-4 text-slate-600 text-sm">
